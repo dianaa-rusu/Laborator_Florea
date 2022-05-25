@@ -1,0 +1,68 @@
+1)
+	MIPS<->DLX
+	
+	Asemanari: - ambele sunt procesoare RISC
+			   - ambele au 32 registrii de uz general
+			   - la ambele registrul 0 are valoarea 0
+	Deosebiri: - la MIPS registrii se acceseaza prin numar scriind $x , unde x este nr registrului sau 
+				printr-un nume definit, de exemplu $2 si $3 se pot accesa ca $v0 si $v1, pe cand la DLX 
+				registrii se acceseaza scriind rx, unde x este nr registrului
+			   - la MIPS comentariile se scriu cu # , pe cand la DLX se scriu cu ;
+			   - la MIPS programul se incheie cu "done" iar la DLX cu "trap 0"
+	
+2)
+
+  Cele 5 faze pipeline ale procesorului DLX sunt:
+	1. IF (Instruction Fetch)
+		Obtine PC-ul si aduce instructiunea respectiva din memorie în registrul IR dupa care incrementeaza
+		PC-ul cu 4. (adresa urmatoarei instructiuni din secventa de program) 
+		
+		
+	2. ID (Instruction Decode)
+		Decodifica instructiunea si acceseaza setul de registri pentru a citi
+	continutul acestora , se calculeaza adresa de salt (pentru instructiunile de ramificatie).
+	Decodificarea se face în paralel cu citirea registrilor. (tehnica numita fixed-field decoding)
+	
+	3. EX (Execution)
+		Se face in functie de tipul instructiunilor. 
+		Exista urmatoarele situatii:
+			3.1 Referinta la memorie
+				Se efectueaza adunarea în ALU si se obtine adresa efectiva de memorie.Rezultatul se depune
+				în registrul temporar ALUOutput.
+				
+			3.2 Instructiune ALU de tip Registru-Registru
+				Se efectueaza operatia specificata in opcode intre valorile celor 2 
+				registrii.Rezultatul se depune în registrul temporar ALUOutput.
+				
+			3.3 Instructiune ALU de tip Registru-Imediat
+				Se efectueaza operatia specificata in opcode intre registru si operandul imediat.
+				Rezultatul se pune in ALUOutput.
+				
+			3.4 Branch
+				Se calculeaza adresa de salt(NPC+valoare imediata), apoi urmeaza verificarea saltul (daca  
+				a fost facut sau nu).
+	
+	4. MEM (Memory access)
+		Exista 3 tipuri de instructiuni :
+			4.1 Referinte la memorie	
+					Instructiunile de tip LOAD si STORE.Se acceseaza/se scriu date din/in memoria principala.
+			4.2 Branch
+					Daca saltul se face PC-ul este înlocuit cu adresa de salt aflata în registrul ALUOutput iar 
+					daca saltul nu se face el este înlocuit cu PC-ul incrementat aflat în registrul NPC.
+
+	5. WB (Write Back)
+		Scrie rezultatul în setul de registri fie ca acesta provine din memorie sau din iesirile ALU.
+		
+	Scopul pipeline -> Cresterea numarului de instructiuni ce pot fi executate intr-o unitate de timp 
+					-> Executarea simultana (dar decalata) a mai multor instructuni fara componente
+					harware sumplimentare
+	Avantajele pipeline -> creste rata de executie a instructiunilor 
+						-> se poate creste rapiditatea functionarii fara a creste complexitatea 
+						la unele circuite combinationale 
+
+3) Tema6
+						
+	
+					
+					
+						
