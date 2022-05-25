@@ -1,0 +1,118 @@
+procesor cu 5 nivele
+A) I1: LOAD R1, 9(R5)
+	I2: ADD R6, R1, R3
+	
+a) I1    IF ID ALU MEM WB
+   I2 	 	IF IF   X   x ALU MEM WB
+   
+ delay slots: 2
+ 
+ 
+ b) daca se aplica mecanismul de forwarding ///STIM DACA E IN ALU SAU IN MEM IN FUNCTIE DE INSTRUCTIUNEA PE CARE O AM
+ 
+	I1		IF ID ALU MEM WB
+	I2      	IF ID  X ALU MEM WB
+	
+delay slots: 1
+
+B) I1: ADD R1, R6, 7
+   I2: LOAD R1, 9(R5)
+   
+  
+ a) I1: IF ID ALU MEM WB
+    I2: 	IF ID X	X ALU MEM WB
+
+delay slots:2
+
+b) se aplica tehinca de forwarding
+
+I1: IF ID ALU MEM WB
+I2: 	IF ID  ALU MEM WB 
+
+delay slots:0
+
+pentru LD R9, (R1) delay slots este 1
+
+-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+2. K=X[I-4] + 12
+	L= Y[J+5] XOR K
+	M = K AND L
+	
+Ri, Rj, Rk, Rl, Rm contin val pentru I, J, K, L, M => registrii
+
+X[adr] = valoarea din mem de la adr data de adr
+
+i1: SUB Ri, Ri, #4
+i2:	LOAD Rk, (Ri)
+i3: ADD Rk, Rk, #12  # este pentru valoare decimala
+
+i4: ADD Rj, Rj, #5
+i5: LOAD Rl, (Rj)
+i6: XOR Rl, Rk
+
+i7: AND Rm, Rl, Rk
+
+
+//PROBLEMA 85 SE REZOLVA LA FEL, TEMA
+
+	a)Graf depdendente RAW
+	
+						i1				i4
+						 |			 	|
+			-------------------------------------------------------
+						i2 				i5
+						|				/
+			---------------------------------------------------------------
+						i3			  /
+		------------------------------------------------------
+						\
+							\		/
+
+								i6
+				------------------------------------
+								|
+								i7 (i7 dependent si de i3 si de i5)
+								
+
+b)in cati ciclii se executa secventa
+
+ 1 - NOP - 2 - NOP  - 3 - 4 - NOP - 5 -NOP - 6 - NOP -7  (In cazul proc cu 4 instructiuni deplay slot-ul este 1) 
+ =>12 cilci
+i1:IF IF A/M WB
+i2:	IF ID X A/M WB
+ delay slots = 1
+ 
+ c) 1-4-2-5-3-6-7 -ordine optimizata, executam pe layere ---> legatura cu liniile din graf
+ 
+ 1-4-2-5-3-NOP-6-NOP-7 =>9cilcii
+ 
+ !!!! in cazul unui proc cu 5 instr, delay slot-ul este 2, dar o instr acopera un sigur delay slot
+
+cu tehnica de forwarding nu avem niciun delay slot 
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+problema 8/pg 304
+
+i1: ADD R1, R2, #15
+i2: ADD R3, R4, #17
+i3: ADD R5, R3, R1
+i4: ADD R6, R5, #12
+i5: ADD R3, R7, #3
+i6: ADD R8, R3, #2
+i7: ADD R9, R8, #14
+
+->luam toate tipurile de dependente
+->poza whp LARISA
+
+1-2-NOP-3-NOP-4	-nop-5-nop-6-nop-7  =>11 ciclii
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
+PROBLEME EXAMEN: 7, 23, 26, 28, 85
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+github-pe laptop tot ce avem nevoie
